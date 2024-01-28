@@ -4,6 +4,7 @@ from database import connect, get_sample_data
 
 app = Flask(__name__)
 
+
 @app.route('/')
 def home():
     return 'Welcome to the ETL and API application!'

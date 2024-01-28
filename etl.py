@@ -1,10 +1,7 @@
 import pandas as pd
-import os
-from pprint import pprint as pp
 from database import connect, create_tables, ingest_data, get_sample_data
 
-FILE_PATHS = ['organizations-100.csv', 'organizations-100.csv']
-
+FILE_PATHS = ['organizations-100.csv', 'organizations-2.csv']
 
 
 def read_csv(paths):
@@ -13,7 +10,6 @@ def read_csv(paths):
         paths : list of csv paths
         return Data frame 
     """
-    
     result = [pd.read_csv(_,  encoding='utf-8') for _ in paths]
     if result is not None:
         return pd.concat(result, ignore_index=True)
@@ -23,6 +19,9 @@ def read_csv(paths):
 
 
 def clean_data(data):
+    """
+    clean data : this function will do some clean to our data
+    """
     try:
         data = data.dropna()
         data["Organization Id"] = data["Organization Id"].astype(str)
@@ -33,6 +32,9 @@ def clean_data(data):
 
 
 def load(data):
+    """
+    load function : connect and ingest data into table
+    """
     connection = connect()
     create_tables(connection)
     print('*** ingest {} data into Organization table ***'.format(len(data)))
